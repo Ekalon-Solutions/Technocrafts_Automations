@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
-import logo from "../assets/images/main-logo.png";
+import logo from "../assets/images/logo1.png";
 import { verifyResetToken, resetPassword } from "../apis/resetPassword";
 
 const ResetPassword: React.FC = () => {
@@ -138,7 +138,7 @@ const ResetPassword: React.FC = () => {
             },
           }}
         >
-          <a href="https://abhitechenergycon.com/" target="_blank" rel="noreferrer">
+          <a href="https://technocrafts.net/" target="_blank" rel="noreferrer">
             <img src={logo} alt="Logo" />
           </a>
         </Box>

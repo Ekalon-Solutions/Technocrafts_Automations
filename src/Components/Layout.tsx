@@ -36,26 +36,78 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const lightTheme = createTheme({
+const technocraftsTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#2c3e50',
-      light: '#34495e',
-      dark: '#1a2b4b',
+      main: '#dc2626',
+      light: '#ef4444',
+      dark: '#b91c1c',
+      contrastText: '#ffffff',
+    },
+    secondary: {
+      main: '#6b7280',
+      light: '#9ca3af',
+      dark: '#374151',
       contrastText: '#ffffff',
     },
     background: {
-      default: '#f4f6f7',
+      default: '#f8fafc',
       paper: '#ffffff',
     },
     text: {
-      primary: '#2c3e50',
-      secondary: '#7f8c8d',
+      primary: '#1f2937',
+      secondary: '#6b7280',
+    },
+    grey: {
+      50: '#f9fafb',
+      100: '#f3f4f6',
+      200: '#e5e7eb',
+      300: '#d1d5db',
+      400: '#9ca3af',
+      500: '#6b7280',
+      600: '#4b5563',
+      700: '#374151',
+      800: '#1f2937',
+      900: '#111827',
     },
   },
   typography: {
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Roboto', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+    h1: {
+      fontWeight: 700,
+    },
+    h2: {
+      fontWeight: 600,
+    },
+    h3: {
+      fontWeight: 600,
+    },
+    body1: {
+      fontWeight: 400,
+    },
+    body2: {
+      fontWeight: 400,
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          textTransform: 'none',
+          fontWeight: 500,
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+        },
+      },
+    },
   },
 });
 
@@ -108,7 +160,6 @@ const Layout = (props: LayoutProps) => {
     }
   ], [baseListItems]);
 
-
   const listItems = useMemo(() => {
     let selectedList;
 
@@ -125,7 +176,6 @@ const Layout = (props: LayoutProps) => {
     );
   }, [user, marketingListItems, adminListItems, baseListItems]);
 
-
   const handleOptionClick = useCallback((path: string) => {
     navigate(path);
 
@@ -133,7 +183,6 @@ const Layout = (props: LayoutProps) => {
       setOpen(false);
     }
   }, [navigate, isMobile]);
-
 
   const togglePermanentDrawer = useCallback(() => {
     const newPinnedState = !permanentDrawer;
@@ -146,28 +195,40 @@ const Layout = (props: LayoutProps) => {
     setOpen(!open);
   }, [open]);
 
-  const drawerWidth = open || permanentDrawer ? 260 : 80;
+  const drawerWidth = open || permanentDrawer ? 280 : 72;
 
   const renderMobileMenuButton = () => (
-    <IconButton
-      color="inherit"
-      aria-label="open drawer"
-      edge="start"
-      onClick={toggleMobileMenu}
-      sx={{
-        position: 'fixed',
-        left: 16,
-        top: 12,
-        zIndex: theme.zIndex.drawer + 2,
-        bgcolor: 'background.paper',
-        boxShadow: 1,
-        '&:hover': {
-          bgcolor: alpha(theme.palette.primary.main, 0.08),
-        },
-      }}
+    <motion.div
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ type: "spring", stiffness: 260, damping: 20 }}
     >
-      <MenuIcon />
-    </IconButton>
+      <IconButton
+        color="inherit"
+        aria-label="open drawer"
+        edge="start"
+        onClick={toggleMobileMenu}
+        sx={{
+          position: 'fixed',
+          left: 16,
+          top: 12,
+          zIndex: theme.zIndex.drawer + 2,
+          bgcolor: 'white',
+          color: 'grey.700',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          border: '1px solid',
+          borderColor: 'grey.200',
+          '&:hover': {
+            bgcolor: 'grey.50',
+            transform: 'scale(1.05)',
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          },
+          transition: 'all 0.2s ease',
+        }}
+      >
+        <MenuIcon />
+      </IconButton>
+    </motion.div>
   );
 
   const handleDashboardToggle = useCallback(() => {
@@ -193,11 +254,11 @@ const Layout = (props: LayoutProps) => {
   }, [permanentDrawer, isMobile]);
 
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={technocraftsTheme}>
       <Box
         sx={{
           display: 'flex',
-          bgcolor: 'background.default',
+          bgcolor: 'grey.50',
           minHeight: '100vh'
         }}
       >
@@ -217,53 +278,74 @@ const Layout = (props: LayoutProps) => {
               boxSizing: 'border-box',
               top: '64px',
               height: 'calc(100% - 64px)',
-              borderRight: `1px solid ${alpha(lightTheme.palette.primary.main, 0.1)}`,
-              backgroundColor: 'background.paper',
-              boxShadow: lightTheme.shadows[2],
-              transition: lightTheme.transitions.create(['width'], {
-                easing: lightTheme.transitions.easing.easeInOut,
-                duration: lightTheme.transitions.duration.standard,
+              borderRight: '1px solid',
+              borderColor: 'grey.200',
+              backgroundColor: 'white',
+              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+              transition: technocraftsTheme.transitions.create(['width'], {
+                easing: technocraftsTheme.transitions.easing.easeInOut,
+                duration: technocraftsTheme.transitions.duration.standard,
               }),
-              zIndex: lightTheme.zIndex.appBar - 1,
+              zIndex: technocraftsTheme.zIndex.appBar - 1,
               overflowX: 'hidden',
               overflowY: 'auto',
               '&::-webkit-scrollbar': {
-                width: '6px',
+                width: '4px',
               },
               '&::-webkit-scrollbar-track': {
                 background: 'transparent',
               },
               '&::-webkit-scrollbar-thumb': {
-                background: alpha(lightTheme.palette.primary.main, 0.2),
-                borderRadius: '3px',
+                background: alpha(technocraftsTheme.palette.grey[400], 0.5),
+                borderRadius: '2px',
               },
               '&::-webkit-scrollbar-thumb:hover': {
-                background: alpha(lightTheme.palette.primary.main, 0.3),
+                background: alpha(technocraftsTheme.palette.grey[500], 0.7),
               },
             },
           }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            p: 1,
-            borderBottom: `1px solid ${alpha(lightTheme.palette.primary.main, 0.1)}`,
-          }}>
-            {!isMobile && (
-              <Tooltip title={permanentDrawer ? "Unpin Menu" : "Pin Menu"}>
-                <IconButton
-                  onClick={togglePermanentDrawer}
-                  color={permanentDrawer ? "primary" : "default"}
-                >
-                  {permanentDrawer ? <PushPinIcon /> : <PushPinOutlinedIcon />}
-                </IconButton>
-              </Tooltip>
-            )}
-          </Box>
-          <List sx={{ p: 2 }}>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              p: 2,
+              borderBottom: '1px solid',
+              borderColor: 'grey.200',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+            }}>
+              {!isMobile && (
+                <Tooltip title={permanentDrawer ? "Unpin Menu" : "Pin Menu"}>
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <IconButton
+                      onClick={togglePermanentDrawer}
+                      sx={{
+                        color: permanentDrawer ? 'primary.main' : 'grey.600',
+                        transition: 'all 0.2s ease',
+                        '&:hover': {
+                          bgcolor: permanentDrawer ? alpha(technocraftsTheme.palette.primary.main, 0.1) : 'grey.100',
+                        }
+                      }}
+                    >
+                      {permanentDrawer ? <PushPinIcon /> : <PushPinOutlinedIcon />}
+                    </IconButton>
+                  </motion.div>
+                </Tooltip>
+              )}
+            </Box>
+          </motion.div>
+          
+          <List sx={{ p: 3 }}>
             <AnimatePresence>
               {listItems.map((item, index) => (
                 <motion.div
@@ -272,44 +354,194 @@ const Layout = (props: LayoutProps) => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{
-                    duration: 0.2,
-                    delay: index * 0.05
+                    duration: 0.3,
+                    delay: index * 0.1,
+                    type: "spring",
+                    stiffness: 100
                   }}
                 >
                   {item.children ? (
                     <React.Fragment key={item.text}>
+                      <motion.div
+                        whileHover={{ x: 4 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <ListItem
+                          button
+                          onClick={handleDashboardToggle}
+                          sx={{
+                            borderRadius: '12px',
+                            mb: 1.5,
+                            p: 2,
+                            color: dashboardOpen ? 'primary.main' : 'grey.700',
+                            bgcolor: dashboardOpen ? alpha(technocraftsTheme.palette.primary.main, 0.05) : 'transparent',
+                            border: '1px solid',
+                            borderColor: dashboardOpen ? alpha(technocraftsTheme.palette.primary.main, 0.2) : 'transparent',
+                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                            '&:hover': {
+                              bgcolor: dashboardOpen ? alpha(technocraftsTheme.palette.primary.main, 0.08) : 'grey.50',
+                              borderColor: dashboardOpen ? alpha(technocraftsTheme.palette.primary.main, 0.3) : 'grey.200',
+                              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
+                            },
+                            '& .MuiListItemIcon-root': {
+                              color: 'inherit',
+                              minWidth: 44,
+                            },
+                          }}
+                        >
+                          <Tooltip title={!open && !isMobile ? item.text : ''} placement="right">
+                            <ListItemIcon>{item.icon}</ListItemIcon>
+                          </Tooltip>
+                          <Fade in={open || isMobile} timeout={400}>
+                            <ListItemText
+                              primary={
+                                <Typography
+                                  sx={{
+                                    fontFamily: "'Roboto', sans-serif",
+                                    fontWeight: open ? 600 : 500,
+                                    fontSize: '0.95rem',
+                                    color: dashboardOpen ? 'primary.main' : 'grey.700',
+                                    opacity: open || isMobile ? 1 : 0,
+                                    transition: 'all 0.3s ease',
+                                  }}
+                                >
+                                  {item.text}
+                                </Typography>
+                              }
+                            />
+                          </Fade>
+                          {(open || isMobile) && (
+                            <motion.div
+                              animate={{ rotate: dashboardOpen ? 180 : 0 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              {dashboardOpen ? <ExpandLess /> : <ExpandMore />}
+                            </motion.div>
+                          )}
+                        </ListItem>
+                      </motion.div>
+                      <Collapse in={dashboardOpen} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                          {item.children.map((child, childIndex) => (
+                            <motion.div
+                              key={child.text}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: childIndex * 0.05 }}
+                            >
+                              <motion.div
+                                whileHover={{ x: 8 }}
+                                whileTap={{ scale: 0.98 }}
+                              >
+                                <ListItem
+                                  button
+                                  onClick={() => handleOptionClick(child.path!)}
+                                  selected={location.pathname === child.path}
+                                  sx={{
+                                    borderRadius: '10px',
+                                    mb: 1,
+                                    p: 1.5,
+                                    ml: 2,
+                                    color: location.pathname === child.path ? 'primary.main' : 'grey.600',
+                                    bgcolor: location.pathname === child.path 
+                                      ? alpha(technocraftsTheme.palette.primary.main, 0.08)
+                                      : 'transparent',
+                                    borderLeft: '3px solid',
+                                    borderLeftColor: location.pathname === child.path 
+                                      ? 'primary.main' 
+                                      : 'transparent',
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    '&:hover': {
+                                      bgcolor: location.pathname === child.path 
+                                        ? alpha(technocraftsTheme.palette.primary.main, 0.12)
+                                        : 'grey.50',
+                                      borderLeftColor: location.pathname === child.path 
+                                        ? 'primary.main' 
+                                        : 'grey.300',
+                                    },
+                                    '& .MuiListItemIcon-root': {
+                                      color: 'inherit',
+                                      minWidth: 40,
+                                    },
+                                  }}
+                                >
+                                  <Tooltip title={!open && !isMobile ? child.text : ''} placement="right">
+                                    <ListItemIcon>{child.icon}</ListItemIcon>
+                                  </Tooltip>
+                                  <Fade in={open || isMobile} timeout={400}>
+                                    <ListItemText
+                                      primary={
+                                        <Typography
+                                          sx={{
+                                            fontFamily: "'Roboto', sans-serif",
+                                            fontWeight: open ? 500 : 400,
+                                            fontSize: '0.9rem',
+                                            color: location.pathname === child.path ? 'primary.main' : 'grey.600',
+                                            opacity: open || isMobile ? 1 : 0,
+                                            transition: 'all 0.3s ease',
+                                          }}
+                                        >
+                                          {child.text}
+                                        </Typography>
+                                      }
+                                    />
+                                  </Fade>
+                                </ListItem>
+                              </motion.div>
+                            </motion.div>
+                          ))}
+                        </List>
+                      </Collapse>
+                    </React.Fragment>
+                  ) : (
+                    <motion.div
+                      whileHover={{ x: 4 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
                       <ListItem
                         button
-                        onClick={handleDashboardToggle}
+                        onClick={() => handleOptionClick(item.path!)}
+                        selected={location.pathname === item.path}
                         sx={{
                           borderRadius: '12px',
-                          mb: 1,
-                          p: 1.5,
-                          color: dashboardOpen ? 'primary.main' : 'text.secondary',
-                          bgcolor: dashboardOpen ? alpha(lightTheme.palette.primary.main, 0.1) : 'transparent',
-                          transition: 'all 0.3s ease',
+                          mb: 1.5,
+                          p: 2,
+                          color: location.pathname === item.path ? 'primary.main' : 'grey.700',
+                          bgcolor: location.pathname === item.path 
+                            ? alpha(technocraftsTheme.palette.primary.main, 0.05)
+                            : 'transparent',
+                          border: '1px solid',
+                          borderColor: location.pathname === item.path 
+                            ? alpha(technocraftsTheme.palette.primary.main, 0.2)
+                            : 'transparent',
+                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                           '&:hover': {
-                            bgcolor: alpha(lightTheme.palette.primary.main, 0.05),
-                            transform: 'translateX(5px)',
+                            bgcolor: location.pathname === item.path 
+                              ? alpha(technocraftsTheme.palette.primary.main, 0.08)
+                              : 'grey.50',
+                            borderColor: location.pathname === item.path 
+                              ? alpha(technocraftsTheme.palette.primary.main, 0.3)
+                              : 'grey.200',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
                           },
                           '& .MuiListItemIcon-root': {
                             color: 'inherit',
-                            minWidth: 40,
+                            minWidth: 44,
                           },
                         }}
                       >
                         <Tooltip title={!open && !isMobile ? item.text : ''} placement="right">
                           <ListItemIcon>{item.icon}</ListItemIcon>
                         </Tooltip>
-                        <Fade in={open || isMobile} timeout={300}>
+                        <Fade in={open || isMobile} timeout={400}>
                           <ListItemText
                             primary={
                               <Typography
                                 sx={{
-                                  fontFamily: "'Inter', sans-serif",
-                                  fontWeight: open ? 600 : 400,
+                                  fontFamily: "'Roboto', sans-serif",
+                                  fontWeight: open ? 600 : 500,
                                   fontSize: '0.95rem',
-                                  color: dashboardOpen ? 'primary.main' : 'text.secondary',
+                                  color: location.pathname === item.path ? 'primary.main' : 'grey.700',
                                   opacity: open || isMobile ? 1 : 0,
                                   transition: 'all 0.3s ease',
                                 }}
@@ -319,116 +551,8 @@ const Layout = (props: LayoutProps) => {
                             }
                           />
                         </Fade>
-                        {(open || isMobile) && (dashboardOpen ? <ExpandLess /> : <ExpandMore />)}
                       </ListItem>
-                      <Collapse in={dashboardOpen} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                          {item.children.map(child => (
-                            <ListItem
-                              key={child.text}
-                              button
-                              onClick={() => handleOptionClick(child.path!)}
-                              selected={location.pathname === child.path}
-                              sx={{
-                                borderRadius: '12px',
-                                mb: 1,
-                                p: 1.5,
-                                pl: '1rem',
-                                color: location.pathname === child.path
-                                  ? 'primary.main'
-                                  : 'text.secondary',
-                                bgcolor: location.pathname === child.path
-                                  ? alpha(lightTheme.palette.primary.main, 0.1)
-                                  : 'transparent',
-                                transition: 'all 0.3s ease',
-                                '&:hover': {
-                                  bgcolor: alpha(lightTheme.palette.primary.main, 0.05),
-                                  transform: 'translateX(5px)',
-                                },
-                                '& .MuiListItemIcon-root': {
-                                  color: 'inherit',
-                                  minWidth: 40,
-                                },
-                              }}
-                            >
-                              <Tooltip title={!open && !isMobile ? child.text : ''} placement="right">
-                                <ListItemIcon>{child.icon}</ListItemIcon>
-                              </Tooltip>
-                              <Fade in={open || isMobile} timeout={300}>
-                                <ListItemText
-                                  primary={
-                                    <Typography
-                                      sx={{
-                                        fontFamily: "'Inter', sans-serif",
-                                        fontWeight: open ? 600 : 400,
-                                        fontSize: '0.9rem',
-                                        color: location.pathname === child.path
-                                          ? 'primary.main'
-                                          : 'text.secondary',
-                                        opacity: open || isMobile ? 1 : 0,
-                                        transition: 'all 0.3s ease',
-                                      }}
-                                    >
-                                      {child.text}
-                                    </Typography>
-                                  }
-                                />
-                              </Fade>
-                            </ListItem>
-                          ))}
-                        </List>
-                      </Collapse>
-                    </React.Fragment>
-                  ) : (
-                    <ListItem
-                      button
-                      onClick={() => handleOptionClick(item.path!)}
-                      selected={location.pathname === item.path}
-                      sx={{
-                        borderRadius: '12px',
-                        mb: 1,
-                        p: 1.5,
-                        color: location.pathname === item.path
-                          ? 'primary.main'
-                          : 'text.secondary',
-                        bgcolor: location.pathname === item.path
-                          ? alpha(lightTheme.palette.primary.main, 0.1)
-                          : 'transparent',
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          bgcolor: alpha(lightTheme.palette.primary.main, 0.05),
-                          transform: 'translateX(5px)',
-                        },
-                        '& .MuiListItemIcon-root': {
-                          color: 'inherit',
-                          minWidth: 40,
-                        },
-                      }}
-                    >
-                      <Tooltip title={!open && !isMobile ? item.text : ''} placement="right">
-                        <ListItemIcon>{item.icon}</ListItemIcon>
-                      </Tooltip>
-                      <Fade in={open || isMobile} timeout={300}>
-                        <ListItemText
-                          primary={
-                            <Typography
-                              sx={{
-                                fontFamily: "'Inter', sans-serif",
-                                fontWeight: open ? 600 : 400,
-                                fontSize: '0.95rem',
-                                color: location.pathname === item.path
-                                  ? 'primary.main'
-                                  : 'text.secondary',
-                                opacity: open || isMobile ? 1 : 0,
-                                transition: 'all 0.3s ease',
-                              }}
-                            >
-                              {item.text}
-                            </Typography>
-                          }
-                        />
-                      </Fade>
-                    </ListItem>
+                    </motion.div>
                   )}
                 </motion.div>
               ))}
@@ -440,32 +564,42 @@ const Layout = (props: LayoutProps) => {
           component="main"
           sx={{
             flexGrow: 1,
-            bgcolor: 'background.default',
+            bgcolor: 'grey.50',
             pt: '88px',
             maxWidth: '100%',
             width: {
               xs: '100%',
               sm: !isMobile
-                ? `calc(100% - ${open || permanentDrawer ? drawerWidth : 80}px)`
+                ? `calc(100% - ${open || permanentDrawer ? drawerWidth : 72}px)`
                 : '100%'
             },
-
-            transition: lightTheme.transitions.create(['width', 'margin'], {
-              easing: lightTheme.transitions.easing.easeInOut,
-              duration: lightTheme.transitions.duration.standard,
+            transition: technocraftsTheme.transitions.create(['width', 'margin'], {
+              easing: technocraftsTheme.transitions.easing.easeInOut,
+              duration: technocraftsTheme.transitions.duration.standard,
             }),
           }}
         >
-          <Paper
-            elevation={1}
-            sx={{
-              borderRadius: 3,
-              bgcolor: 'background.paper',
-              minHeight: 'calc(100vh - 120px)',
-            }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            {props.children}
-          </Paper>
+            <Paper
+              elevation={0}
+              sx={{
+                borderRadius: '16px',
+                bgcolor: 'white',
+                minHeight: 'calc(100vh - 120px)',
+                border: '1px solid',
+                borderColor: 'grey.200',
+                boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+                backdropFilter: 'blur(10px)',
+                background: 'linear-gradient(135deg, #ffffff 0%, #fefefe 100%)',
+              }}
+            >
+              {props.children}
+            </Paper>
+          </motion.div>
         </Box>
       </Box>
     </ThemeProvider>

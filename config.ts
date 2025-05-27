@@ -3,5 +3,6 @@ export interface Config {
 }
 
 export const config: Config = {
-    APIBaseURL: "http://127.0.0.1:3100",
+    APIBaseURL: "https://abhitechtechnicalworkspace.com:3100",
+    // APIBaseURL: "http://127.0.0.1:3100",
 }

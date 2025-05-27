@@ -186,7 +186,7 @@ const PasswordChange = () => {
     }
   };
 
-  const mainBlue = '#1a2b4b';
+  const black = '#000000';
 
   return (
     <>
@@ -195,11 +195,11 @@ const PasswordChange = () => {
         startIcon={<KeyIcon />}
         onClick={handleOpen}
         sx={{
-          color: mainBlue,
-          borderColor: mainBlue,
+          color: black,
+          borderColor: black,
           '&:hover': {
-            borderColor: alpha(mainBlue, 0.9),
-            backgroundColor: alpha(mainBlue, 0.1),
+            borderColor: alpha(black, 0.9),
+            backgroundColor: alpha(black, 0.1),
           },
         }}
       >
@@ -225,12 +225,12 @@ const PasswordChange = () => {
                 p: 3,
                 borderRadius: "12px",
                 backgroundColor: 'white',
-                boxShadow: `0 4px 6px ${alpha(mainBlue, 0.1)}`
+                boxShadow: `0 4px 6px ${alpha(black, 0.1)}`
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
-                <LockIcon sx={{ mr: 1, color: mainBlue }} />
-                <Typography variant="h6" sx={{ color: mainBlue }}>
+                <LockIcon sx={{ mr: 1, color: black }} />
+                <Typography variant="h6" sx={{ color: black }}>
                   Change Password
                 </Typography>
               </Box>
@@ -318,11 +318,11 @@ const PasswordChange = () => {
                       variant="outlined"
                       fullWidth
                       sx={{
-                        color: mainBlue,
-                        borderColor: mainBlue,
+                        color: black,
+                        borderColor: black,
                         '&:hover': {
-                          borderColor: alpha(mainBlue, 0.9),
-                          backgroundColor: alpha(mainBlue, 0.1),
+                          borderColor: alpha(black, 0.9),
+                          backgroundColor: alpha(black, 0.1),
                         },
                       }}
                     >
@@ -333,9 +333,9 @@ const PasswordChange = () => {
                       variant="contained"
                       fullWidth
                       sx={{
-                        backgroundColor: mainBlue,
+                        backgroundColor: black,
                         '&:hover': {
-                          backgroundColor: alpha(mainBlue, 0.9),
+                          backgroundColor: alpha(black, 0.9),
                         },
                       }}
                     >

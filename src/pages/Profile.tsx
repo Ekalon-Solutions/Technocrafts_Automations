@@ -9,7 +9,8 @@ import {
   Tabs,
   Tab,
   styled,
-  Button
+  Button,
+  IconButton
 } from "@mui/material";
 import { motion } from "framer-motion";
 import {
@@ -19,7 +20,9 @@ import {
   AccountCircle as ProfileIcon,
   Timeline as TimelineIcon,
   FlightTakeoff as FlightIcon,
-  ElectricalServices,
+  PhotoCamera as PhotoCameraIcon,
+  DeleteOutline as DeleteOutlineIcon,
+  LockOutlined as LockOutlinedIcon,
 } from "@mui/icons-material";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -91,7 +94,7 @@ const ProfilePage = () => {
         {...other}
       >
         {value === index && (
-          <Box sx={{ p: 4 }}>
+          <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
             {children}
           </Box>
         )}
@@ -111,27 +114,29 @@ const ProfilePage = () => {
     alignItems: 'flex-start',
     marginBottom: theme.spacing(3),
     flexWrap: 'wrap',
-    padding: theme.spacing(2),
+    padding: theme.spacing(2.5),
     borderRadius: '12px',
-    background: `linear-gradient(135deg, ${alpha(lightGrey, 0.5)} 0%, ${alpha(white, 0.8)} 100%)`,
-    backdropFilter: 'blur(10px)',
-    border: `1px solid ${alpha(mediumGrey, 0.1)}`,
-    transition: 'all 0.3s ease',
+    background: `linear-gradient(135deg, ${alpha(lightGrey, 0.4)} 0%, ${alpha(white, 0.9)} 100%)`,
+    border: `1px solid ${alpha(mediumGrey, 0.08)}`,
+    transition: 'all 0.2s ease',
     '&:hover': {
-      transform: 'translateY(-2px)',
-      boxShadow: `0 8px 25px ${alpha(black, 0.1)}`,
-      border: `1px solid ${alpha(primaryRed, 0.2)}`,
+      transform: 'translateY(-1px)',
+      border: `1px solid ${alpha(primaryRed, 0.15)}`,
     }
   }));
 
   const InfoLabel = styled(Typography)(({ theme }) => ({
-    fontWeight: 700,
-    minWidth: '150px',
+    fontWeight: 600,
+    minWidth: '140px',
     color: darkGrey,
     display: 'flex',
     alignItems: 'center',
     fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
     letterSpacing: '-0.025em',
+    [theme.breakpoints.down('sm')]: {
+      minWidth: 'auto',
+      marginBottom: theme.spacing(0.5),
+    }
   }));
 
   const InfoValue = styled(Typography)(({ theme }) => ({
@@ -139,6 +144,23 @@ const ProfilePage = () => {
     color: mediumGrey,
     fontFamily: "'Inter', sans-serif",
     fontWeight: 500,
+  }));
+
+  const ActionButton = styled(Button)(({ theme }) => ({
+    borderRadius: '12px',
+    textTransform: 'none',
+    fontFamily: "'Inter', sans-serif",
+    fontWeight: 500,
+    padding: theme.spacing(1.2, 2.5),
+    transition: 'all 0.2s ease',
+    border: `1px solid ${alpha(darkGrey, 0.15)}`,
+    color: darkGrey,
+    backgroundColor: 'transparent',
+    '&:hover': {
+      backgroundColor: alpha(darkGrey, 0.04),
+      border: `1px solid ${alpha(darkGrey, 0.25)}`,
+      transform: 'translateY(-1px)',
+    },
   }));
 
   const formatDateForDisplay = (dateString: string | Date | null): string => {
@@ -162,7 +184,7 @@ const ProfilePage = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
+        duration: 0.6,
         staggerChildren: 0.1
       }
     }
@@ -173,7 +195,7 @@ const ProfilePage = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6 }
+      transition: { duration: 0.5 }
     }
   };
 
@@ -190,17 +212,6 @@ const ProfilePage = () => {
             background: `linear-gradient(135deg, ${lightGrey} 0%, ${white} 100%)`,
             p: { xs: 2, sm: 3, md: 4 },
             position: 'relative',
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: `radial-gradient(circle at 80% 20%, ${alpha(primaryRed, 0.08)} 0%, transparent 50%), 
-                          radial-gradient(circle at 20% 80%, ${alpha(darkGrey, 0.05)} 0%, transparent 50%)`,
-              pointerEvents: 'none',
-            },
           }}
         >
           <motion.div variants={itemVariants}>
@@ -209,7 +220,7 @@ const ProfilePage = () => {
               sx={{
                 width: "100%",
                 mx: "auto",
-                borderRadius: "24px",
+                borderRadius: "20px",
                 backgroundColor: 'transparent',
                 p: 0,
                 position: 'relative',
@@ -218,7 +229,7 @@ const ProfilePage = () => {
             >
               <motion.div
                 variants={itemVariants}
-                whileHover={{ y: -5 }}
+                whileHover={{ y: -2 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <Paper
@@ -228,127 +239,71 @@ const ProfilePage = () => {
                     backgroundColor: white,
                     mb: 0,
                     overflow: 'hidden',
-                    border: `1px solid ${alpha(primaryRed, 0.1)}`,
-                    boxShadow: `0 20px 50px -12px ${alpha(black, 0.15)}, 0 0 0 1px ${alpha(primaryRed, 0.05)}`,
-                    backdropFilter: 'blur(20px)',
+                    border: `1px solid ${alpha(darkGrey, 0.08)}`,
+                    boxShadow: `0 8px 32px -8px ${alpha(black, 0.1)}`,
                   }}
                 >
                   <Grid container>
+                    {/* Left Sidebar */}
                     <Grid item xs={12} md={3}
                       sx={{
-                        background: `linear-gradient(145deg, ${darkGrey} 0%, ${black} 100%)`,
-                        p: 4,
+                        background: `linear-gradient(180deg, ${white} 0%, ${alpha(lightGrey, 0.3)} 100%)`,
+                        p: { xs: 3, md: 4 },
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        position: 'relative',
-                        '&::before': {
-                          content: '""',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          background: `linear-gradient(45deg, ${alpha(primaryRed, 0.1)} 0%, transparent 100%)`,
-                          pointerEvents: 'none',
-                        },
+                        borderRight: { md: `1px solid ${alpha(darkGrey, 0.08)}` },
+                        borderBottom: { xs: `1px solid ${alpha(darkGrey, 0.08)}`, md: 'none' },
                       }}
                     >
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                        style={{ position: 'relative', zIndex: 1 }}
+                      {/* Avatar Section */}
+                      <Box
+                        sx={{
+                          position: 'relative',
+                          mb: 3,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                        }}
                       >
-                        <Box
-                          sx={{
-                            position: 'relative',
-                            mb: 3,
-                          }}
+                        <motion.div
+                          whileHover={{ scale: 1.03 }}
+                          transition={{ type: "spring", stiffness: 300 }}
                         >
                           <Avatar
                             alt={profileData?.name}
                             src={profilePicture || profileData?.profilePictureURL}
                             sx={{
-                              width: 160,
-                              height: 160,
-                              border: `4px solid ${alpha(white, 0.2)}`,
-                              boxShadow: `0 15px 35px ${alpha(black, 0.3)}`,
+                              width: { xs: 120, md: 140 },
+                              height: { xs: 120, md: 140 },
+                              border: `2px solid ${alpha(darkGrey, 0.1)}`,
+                              mb: 2,
                             }}
                           />
-                          <Box
-                            sx={{
-                              position: 'absolute',
-                              bottom: -10,
-                              right: -10,
-                              width: 40,
-                              height: 40,
-                              background: `linear-gradient(135deg, ${primaryRed} 0%, ${darkRed} 100%)`,
-                              borderRadius: '50%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              border: `3px solid ${white}`,
-                              boxShadow: `0 8px 20px ${alpha(primaryRed, 0.4)}`,
-                            }}
-                          >
-                            <ElectricalServices sx={{ fontSize: 20, color: white }} />
-                          </Box>
-                        </Box>
-                      </motion.div>
+                        </motion.div>
 
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          fontWeight: 800,
-                          color: white,
-                          mb: 1,
-                          textAlign: 'center',
-                          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-                          letterSpacing: '-0.025em',
-                          position: 'relative',
-                          zIndex: 1,
-                        }}
-                      >
-                        {profileData?.name}
-                      </Typography>
-
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          color: alpha(white, 0.8),
-                          mb: 4,
-                          display: 'flex',
+                        {/* Profile Picture Actions */}
+                        <Box sx={{ 
+                          display: 'flex', 
+                          gap: 1.5,
+                          flexDirection: { xs: 'row', sm: 'row' },
                           alignItems: 'center',
-                          justifyContent: 'center',
-                          fontFamily: "'Inter', sans-serif",
-                          fontWeight: 500,
-                          position: 'relative',
-                          zIndex: 1,
-                        }}
-                      >
-                        {profileData?.designation}
-                      </Typography>
-
-                      <Box sx={{ 
-                        mb: 3, 
-                        display: 'flex', 
-                        flexDirection: 'column', 
-                        alignItems: 'center',
-                        position: 'relative',
-                        zIndex: 1,
-                        gap: 2
-                      }}>
-                        <motion.div
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
+                          flexWrap: 'wrap',
+                          justifyContent: 'center'
+                        }}>
                           <FileUpload
                             onUploadSuccess={handleUploadSuccess}
                             onUploadError={handleUploadError}
                             maxFileSize={10 * 1024 * 1024}
                             profilePicture={true}
-                            buttonText='Update Profile Picture'
+                            buttonText={
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                <PhotoCameraIcon fontSize="small" />
+                                <Typography variant="caption" sx={{ display: { xs: 'none', sm: 'block' } }}>
+                                  Update
+                                </Typography>
+                              </Box>
+                            }
                             acceptedFileTypes={[
                               'image/heic',
                               'image/jpeg',
@@ -356,45 +311,73 @@ const ProfilePage = () => {
                               'image/png',
                             ]}
                           />
-                        </motion.div>
-                        
-                        {profileData?.profilePictureURL && (
-                          <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            <Button
-                              variant="outlined"
+                          
+                          {profileData?.profilePictureURL && (
+                            <IconButton
                               onClick={() => handleUploadSuccess({ success: true, url: null })}
                               sx={{
-                                borderColor: alpha(white, 0.3),
-                                color: white,
-                                textTransform: 'none',
-                                borderRadius: '12px',
-                                fontFamily: "'Inter', sans-serif",
-                                fontWeight: 500,
+                                border: `1px solid ${alpha(darkGrey, 0.15)}`,
+                                color: darkGrey,
                                 '&:hover': {
-                                  borderColor: primaryRed,
-                                  backgroundColor: alpha(primaryRed, 0.1),
+                                  backgroundColor: alpha(primaryRed, 0.05),
+                                  borderColor: alpha(primaryRed, 0.2),
                                 },
                               }}
+                              size="small"
                             >
-                              Remove Profile Picture
-                            </Button>
-                          </motion.div>
-                        )}
+                              <DeleteOutlineIcon fontSize="small" />
+                            </IconButton>
+                          )}
+                        </Box>
                       </Box>
 
-                      <Box sx={{ position: 'relative', zIndex: 1 }}>
-                        <PasswordChange />
+                      {/* User Info */}
+                      <Box sx={{ textAlign: 'center', mb: 4, width: '100%' }}>
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            fontWeight: 600,
+                            color: darkGrey,
+                            mb: 1,
+                            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                            letterSpacing: '-0.025em',
+                            fontSize: { xs: '1.25rem', md: '1.5rem' }
+                          }}
+                        >
+                          {profileData?.name}
+                        </Typography>
+
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            color: mediumGrey,
+                            fontFamily: "'Inter', sans-serif",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {profileData?.designation}
+                        </Typography>
+                      </Box>
+
+                      {/* Password Change */}
+                      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                        <ActionButton
+                          startIcon={<LockOutlinedIcon />}
+                          fullWidth
+                          sx={{ maxWidth: '200px' }}
+                        >
+                          <PasswordChange />
+                        </ActionButton>
                       </Box>
                     </Grid>
 
+                    {/* Main Content */}
                     <Grid item xs={12} md={9} sx={{ p: 0 }}>
                       <Box sx={{ width: '100%' }}>
+                        {/* Tabs */}
                         <Box sx={{ 
-                          borderBottom: `1px solid ${alpha(mediumGrey, 0.1)}`,
-                          background: `linear-gradient(135deg, ${alpha(lightGrey, 0.3)} 0%, ${alpha(white, 0.8)} 100%)`,
+                          borderBottom: `1px solid ${alpha(mediumGrey, 0.08)}`,
+                          background: `linear-gradient(135deg, ${alpha(lightGrey, 0.2)} 0%, ${alpha(white, 0.9)} 100%)`,
                         }}>
                           <Tabs
                             value={tabValue}
@@ -405,26 +388,27 @@ const ProfilePage = () => {
                             sx={{
                               '& .MuiTab-root': {
                                 minWidth: 'auto',
-                                px: 3,
+                                px: { xs: 2, sm: 3 },
                                 py: 3,
                                 textTransform: 'none',
                                 fontFamily: "'Inter', sans-serif",
                                 fontWeight: 600,
                                 color: mediumGrey,
-                                transition: 'all 0.3s ease',
+                                fontSize: { xs: '0.875rem', sm: '1rem' },
+                                transition: 'all 0.2s ease',
                                 '&:hover': {
                                   color: primaryRed,
-                                  backgroundColor: alpha(primaryRed, 0.05),
+                                  backgroundColor: alpha(primaryRed, 0.03),
                                 },
                               },
                               '& .Mui-selected': {
                                 color: `${primaryRed} !important`,
-                                backgroundColor: alpha(primaryRed, 0.08),
+                                backgroundColor: alpha(primaryRed, 0.05),
                               },
                               '& .MuiTabs-indicator': {
                                 backgroundColor: primaryRed,
-                                height: 3,
-                                borderRadius: '2px',
+                                height: 2,
+                                borderRadius: '1px',
                               }
                             }}
                           >
@@ -449,34 +433,56 @@ const ProfilePage = () => {
                           </Tabs>
                         </Box>
 
+                        {/* Personal Details Tab */}
                         <TabPanel value={tabValue} index={0}>
                           <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5 }}
+                            transition={{ duration: 0.4 }}
                           >
                             <Box>
-                              <Box
-                                sx={{
-                                  display: 'flex',
-                                  justifyContent: 'space-between',
-                                  alignItems: 'center',
-                                  mb: 3
-                                }}
-                              >
-                                {profileData && (
-                                  <UserPersonalProfile profileData={profileData} authToken={authToken} />
-                                )}
+                              <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+                                <Box
+                                  sx={{
+                                    width: 40,
+                                    height: 40,
+                                    background: `linear-gradient(135deg, ${primaryRed} 0%, ${darkRed} 100%)`,
+                                    borderRadius: '10px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    mr: 2,
+                                  }}
+                                >
+                                  <ProfileIcon sx={{ fontSize: 20, color: white }} />
+                                </Box>
+                                <Typography 
+                                  variant="h5" 
+                                  sx={{ 
+                                    color: darkGrey,
+                                    fontFamily: "'Inter', sans-serif",
+                                    fontWeight: 700,
+                                    letterSpacing: '-0.025em',
+                                    fontSize: { xs: '1.25rem', sm: '1.5rem' }
+                                  }}
+                                >
+                                  Personal Information
+                                </Typography>
                               </Box>
+
+                              {profileData && (
+                                <UserPersonalProfile profileData={profileData} authToken={authToken} />
+                              )}
                             </Box>
                           </motion.div>
                         </TabPanel>
 
+                        {/* Employment Details Tab */}
                         <TabPanel value={tabValue} index={1}>
                           <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5 }}
+                            transition={{ duration: 0.4 }}
                           >
                             <Box>
                               <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
@@ -501,6 +507,7 @@ const ProfilePage = () => {
                                     fontFamily: "'Inter', sans-serif",
                                     fontWeight: 700,
                                     letterSpacing: '-0.025em',
+                                    fontSize: { xs: '1.25rem', sm: '1.5rem' }
                                   }}
                                 >
                                   Employment Information
@@ -510,7 +517,7 @@ const ProfilePage = () => {
                               <Grid container spacing={3}>
                                 <Grid item xs={12} md={6}>
                                   <motion.div
-                                    whileHover={{ y: -2 }}
+                                    whileHover={{ y: -1 }}
                                     transition={{ type: "spring", stiffness: 300 }}
                                   >
                                     <InfoRow>
@@ -523,7 +530,7 @@ const ProfilePage = () => {
                                   </motion.div>
 
                                   <motion.div
-                                    whileHover={{ y: -2 }}
+                                    whileHover={{ y: -1 }}
                                     transition={{ type: "spring", stiffness: 300 }}
                                   >
                                     <InfoRow>
@@ -538,7 +545,7 @@ const ProfilePage = () => {
 
                                 <Grid item xs={12} md={6}>
                                   <motion.div
-                                    whileHover={{ y: -2 }}
+                                    whileHover={{ y: -1 }}
                                     transition={{ type: "spring", stiffness: 300 }}
                                   >
                                     <InfoRow>
@@ -551,7 +558,7 @@ const ProfilePage = () => {
                                   </motion.div>
 
                                   <motion.div
-                                    whileHover={{ y: -2 }}
+                                    whileHover={{ y: -1 }}
                                     transition={{ type: "spring", stiffness: 300 }}
                                   >
                                     <InfoRow>
@@ -568,25 +575,46 @@ const ProfilePage = () => {
                           </motion.div>
                         </TabPanel>
 
+                        {/* Travel Details Tab */}
                         <TabPanel value={tabValue} index={2}>
                           <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5 }}
+                            transition={{ duration: 0.4 }}
                           >
                             <Box>
-                              <Box
-                                sx={{
-                                  display: 'flex',
-                                  justifyContent: 'space-between',
-                                  alignItems: 'center',
-                                  mb: 3
-                                }}
-                              >
-                                {profileData && (
-                                  <UserTravelProfile profileData={profileData} authToken={authToken} />
-                                )}
+                              <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+                                <Box
+                                  sx={{
+                                    width: 40,
+                                    height: 40,
+                                    background: `linear-gradient(135deg, ${primaryRed} 0%, ${darkRed} 100%)`,
+                                    borderRadius: '10px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    mr: 2,
+                                  }}
+                                >
+                                  <FlightIcon sx={{ fontSize: 20, color: white }} />
+                                </Box>
+                                <Typography 
+                                  variant="h5" 
+                                  sx={{ 
+                                    color: darkGrey,
+                                    fontFamily: "'Inter', sans-serif",
+                                    fontWeight: 700,
+                                    letterSpacing: '-0.025em',
+                                    fontSize: { xs: '1.25rem', sm: '1.5rem' }
+                                  }}
+                                >
+                                  Travel Information
+                                </Typography>
                               </Box>
+
+                              {profileData && (
+                                <UserTravelProfile profileData={profileData} authToken={authToken} />
+                              )}
                             </Box>
                           </motion.div>
                         </TabPanel>

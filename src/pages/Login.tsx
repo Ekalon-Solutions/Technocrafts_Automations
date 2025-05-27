@@ -17,12 +17,15 @@ import {
   DialogActions,
   Slide,
 } from "@mui/material";
-import { Visibility, VisibilityOff, ElectricalServices } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { motion } from "framer-motion";
 
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { requestPasswordReset } from "../apis/resetPassword";
+
+import logo from "../assets/images/logo1.png";
+import logo2 from "../assets/images/logo-small.png";
 
 const Login: React.FC = () => {
   const auth = useAuth();
@@ -238,9 +241,8 @@ const Login: React.FC = () => {
                 >
                   <Box
                     sx={{
-                      width: 120,
-                      height: 120,
-                      background: `linear-gradient(135deg, ${primaryRed} 0%, ${darkRed} 100%)`,
+                      width: 160,
+                      height: 160,
                       borderRadius: '24px',
                       display: 'flex',
                       alignItems: 'center',
@@ -249,7 +251,16 @@ const Login: React.FC = () => {
                       border: `2px solid ${alpha(white, 0.1)}`,
                     }}
                   >
-                    <ElectricalServices sx={{ fontSize: 60, color: white }} />
+                    <img
+                      src={logo}
+                      alt="Technocrafts Logo"
+                      style={{
+                        width: '80%',
+                        height: '80%',
+                        objectFit: 'contain',
+                        borderRadius: '12px',
+                      }}
+                    />
                   </Box>
                 </Box>
               </motion.div>
@@ -287,14 +298,22 @@ const Login: React.FC = () => {
                       sx={{
                         width: 48,
                         height: 48,
-                        background: `linear-gradient(135deg, ${primaryRed} 0%, ${darkRed} 100%)`,
                         borderRadius: '12px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                       }}
                     >
-                      <ElectricalServices sx={{ fontSize: 28, color: white }} />
+                      <img
+                      src={logo2}
+                      alt="Technocrafts Logo"
+                      style={{
+                        width: '80%',
+                        height: '80%',
+                        objectFit: 'contain',
+                        borderRadius: '12px',
+                      }}
+                    />
                     </Box>
                     <Typography
                       variant="h5"
@@ -305,7 +324,7 @@ const Login: React.FC = () => {
                         letterSpacing: '-0.025em',
                       }}
                     >
-                      Technocrafts
+                      Technocrafts Electric
                     </Typography>
                   </Box>
                 </Box>
